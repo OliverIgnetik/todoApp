@@ -1,31 +1,28 @@
 import React, { Component } from 'react'
 import './App.css'
 
-const todos = ['Learn React', 'Learn Redux', 'Learn React Native']
+const todos = [
+  'Learn React',
+  'Learn Redux',
+  'Learn React Native',
+  'make a web app',
+]
 
+let token = true;
 class App extends Component {
   render() {
-    return React.createElement(
-      'div',
-      {
-        className: 'app',
-      },
-      React.createElement(
-        'div',
-        { className: 'todo-container' },
-        // in JSX placing {} around the output of an arrow function 
-        // will change the output in the HTML
-        todos.map((todo, index) => 
-          React.createElement(
-            'div',
-            {
-              className: 'todo-item-row',
-              key: index,
-            },
-            todo,
-          )
-        ),
-      ),
+    return (
+      <div className='app'>
+        <div className='todo-container'>
+          <input id='new-todo' />
+          <label htmlFor="new-todo"></label>
+          {todos.map((todo, index) => (
+            <div key={index} className='todo-item-row'>
+              {todo}
+            </div>
+          ))}
+        </div>
+      </div>
     )
   }
 }
