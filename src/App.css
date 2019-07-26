@@ -15,8 +15,6 @@
   grid-row:2/2;
 }
 
-/* .todo-item-row { 
-  display: flex;
-  justify-content: space-between;
-  align-items: center
-} */
+.new-todo {
+  width: 100%;
+}
