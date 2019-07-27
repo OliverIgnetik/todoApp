@@ -22,6 +22,23 @@ const TodoItem = props => (
   </Table.Row>
 )
 
+class Counter extends Component {
+  state = { counter: 0 }
+  render() {
+    return (
+      <button
+        onClick={() => {
+          // set state to change the state of the counter
+          this.setState({
+            counter: this.state.counter + 1,
+          })
+        }}
+      >
+        You have clicked {this.state.counter} times
+      </button>
+    )
+  }
+}
 class App extends Component {
   // set state in a component
   state = {
@@ -36,6 +53,7 @@ class App extends Component {
     return (
       <div className='app'>
         <div className='todo-container'>
+          <Counter />
           <Input
             className='new-todo'
             action='Add Item'

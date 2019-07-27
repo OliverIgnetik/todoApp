@@ -1,10 +1,10 @@
 .app{
   display: grid; 
-  /* right and left equally divide the space */
+  /* right and left equally divide the space left */
   grid-template-columns: 1fr 400px 1fr; 
   /* middle row gets what ever it needs */
   grid-template-rows: 1fr auto 1fr;
-  /* app class gets the entire space */
+  /* app class gets the entire space of the screen */
   height: 100vh;
 }
 
