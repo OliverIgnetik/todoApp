@@ -24,7 +24,23 @@ class App extends Component {
       { title: 'Learn React Native', completed: false },
       { title: 'Learn to make a web app', completed: false },
     ],
+    newTodo: '',
   }
+
+  // component method
+  handleTodoClick = (todo, index) => {
+    const { completed } = todo
+    const [...todos] = this.state.todos
+    todos[index] = { ...todo, completed: !completed }
+    this.setState({ todos: todos })
+  }
+
+  // best way to write class methods to avoid binding issues
+  handleInputChange = event => {
+    const value = event.target.value
+    this.setState({ newTodo: value })
+  }
+
   render() {
     return (
       <div className='app'>
@@ -33,6 +49,9 @@ class App extends Component {
             className='new-todo'
             action='Add Item'
             placeholder='What do you need to do?'
+            // needed to connect the model to the view
+            value={this.state.newTodo}
+            onChange={this.handleInputChange}
           />
           <Table>
             <Table.Header>
@@ -49,12 +68,7 @@ class App extends Component {
                   <Table.Cell>
                     <Checkbox
                       checked={todo.completed}
-                      onChange={() => {
-                        const { completed } = todo
-                        const [...todos] = this.state.todos
-                        todos[index] = { ...todo, completed: !completed }
-                        this.setState({todos:todos})
-                      }}
+                      onChange={() => this.handleTodoClick(todo, index)}
                     />
                   </Table.Cell>
                   <Table.Cell>
