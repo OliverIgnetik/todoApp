@@ -29,9 +29,9 @@ class Counter extends Component {
       <button
         onClick={() => {
           // set state to change the state of the counter
-          this.setState({
-            counter: this.state.counter + 1,
-          })
+          this.setState(({ counter }) => ({
+            counter: counter + 1,
+          }))
         }}
       >
         You have clicked {this.state.counter} times
