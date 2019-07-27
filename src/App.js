@@ -2,13 +2,6 @@ import React, { Component } from 'react'
 import { Table, Checkbox, Button, Input } from 'semantic-ui-react'
 import './App.css'
 
-// const todos = [
-//   'Learn React',
-//   'Learn Redux',
-//   'Learn React Native',
-//   'Make a web app',
-// ]
-
 // construct TodoItem
 const TodoItem = props => (
   <Table.Row>
@@ -22,38 +15,20 @@ const TodoItem = props => (
   </Table.Row>
 )
 
-class Counter extends Component {
-  state = { counter: 0 }
-  render() {
-    return (
-      <button
-        onClick={() => {
-          // set state to change the state of the counter
-          this.setState(({ counter }) => ({
-            counter: counter + 1,
-          }))
-        }}
-      >
-        You have clicked {this.state.counter} times
-      </button>
-    )
-  }
-}
 class App extends Component {
   // set state in a component
   state = {
     todos: [
-      'Learn React',
-      'Learn Redux',
-      'Learn React Native',
-      'Make a web app',
+      { title: 'Learn React', completed: false },
+      { title: 'Learn Redux', completed: false },
+      { title: 'Learn React Native', completed: false },
+      { title: 'Learn to make a web app', completed: false },
     ],
   }
   render() {
     return (
       <div className='app'>
         <div className='todo-container'>
-          <Counter />
           <Input
             className='new-todo'
             action='Add Item'
@@ -70,7 +45,29 @@ class App extends Component {
             </Table.Header>
             <Table.Body>
               {this.state.todos.map((todo, index) => (
-                <TodoItem key={index}>{todo}</TodoItem>
+                <Table.Row key={index} positive={todo.completed}>
+                  <Table.Cell>
+                    <Checkbox
+                      checked={todo.completed}
+                      onChange={() => {
+                        const { completed } = todo
+                        const [...todos] = this.state.todos
+                        todos[index] = { ...todo, completed: !completed }
+                        this.setState({todos:todos})
+                      }}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>
+                    {todo.title}
+                    <Button
+                      color='red'
+                      icon='trash'
+                      floated='right'
+                      compact
+                      size='small'
+                    />
+                  </Table.Cell>
+                </Table.Row>
               ))}
             </Table.Body>
           </Table>
