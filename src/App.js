@@ -35,6 +35,18 @@ class App extends Component {
     this.setState({ todos: todos })
   }
 
+  // check if all toggled
+  handleToggleAll = () => {
+    const [...todos] = this.state.todos
+    const allToggled = todos.every(todo => todo.completed)
+    const toggledTodos = todos.map(todo => ({
+      ...todo,
+      completed: !allToggled,
+    }))
+
+    this.setState({ todos: toggledTodos })
+  }
+
   // best way to write class methods to avoid binding issues
   handleInputChange = event => {
     const value = event.target.value
@@ -82,7 +94,21 @@ class App extends Component {
     }
   }
 
+  handleDelete = index => {
+    const { todos } = this.state
+    const todosWithoutDeletedTodo = todos.filter((t, i) => i !== index)
+    this.setState({ todos: todosWithoutDeletedTodo })
+  }
+
+  handleClearCompleted = () => {
+    const { todos } = this.state
+    const incompleteTodos = todos.filter(todo => !todo.completed)
+    this.setState({ todos: incompleteTodos })
+  }
+
   render() {
+    const { todos } = this.state
+    const allToggled = todos.every(todo => todo.completed)
     return (
       <div className='app'>
         <div className='todo-container'>
@@ -102,7 +128,10 @@ class App extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>
-                  <Checkbox />
+                  <Checkbox
+                    checked={allToggled}
+                    onChange={this.handleToggleAll}
+                  />
                 </Table.HeaderCell>
                 <Table.HeaderCell>Toggle all items</Table.HeaderCell>
               </Table.Row>
@@ -124,11 +153,21 @@ class App extends Component {
                       floated='right'
                       compact
                       size='small'
+                      onClick={() => this.handleDelete(index)}
                     />
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
+            <Table.Footer fullWidth>
+              <Table.Row>
+                <Table.HeaderCell colSpan='2'>
+                  <Button size='small' onClick={this.handleClearCompleted}>
+                    Clear completed
+                  </Button>
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Footer>
           </Table>
         </div>
       </div>
