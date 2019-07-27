@@ -41,17 +41,62 @@ class App extends Component {
     this.setState({ newTodo: value })
   }
 
+  handleNewTodoKeyDown = event => {
+    if (this.state.todos.length >= 10) {
+      // don't allow more than 10 todos
+      return
+    }
+    if (event.keyCode !== 13) {
+      // 13 is enter key
+      return
+    }
+    event.preventDefault()
+    const { newTodo, todos } = this.state //Destructure
+    const value = newTodo.trim() //Get rid of white space at beginning and end
+    if (value) {
+      //Check the value isn't blank
+      this.setState({
+        // append newTodo
+        todos: [...todos, { title: value, completed: false }],
+        //Finally clear the input field
+        newTodo: '',
+      })
+    }
+  }
+
+  handleActionKey = () => {
+    if (this.state.todos.length >= 10) {
+      // don't allow more than 10 todos
+      return
+    }
+    const { newTodo, todos } = this.state //Destructure
+    const value = newTodo.trim() //Get rid of white space at beginning and end
+    if (value) {
+      //Check the value isn't blank
+      this.setState({
+        // append newTodo
+        todos: [...todos, { title: value, completed: false }],
+        //Finally clear the input field
+        newTodo: '',
+      })
+    }
+  }
+
   render() {
     return (
       <div className='app'>
         <div className='todo-container'>
           <Input
             className='new-todo'
-            action='Add Item'
+            action={{
+              content: 'Add item',
+              onClick: this.handleActionKey,
+            }}
             placeholder='What do you need to do?'
             // needed to connect the model to the view
             value={this.state.newTodo}
             onChange={this.handleInputChange}
+            onKeyDown={this.handleNewTodoKeyDown}
           />
           <Table>
             <Table.Header>
