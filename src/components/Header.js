@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Checkbox } from 'semantic-ui-react'
 
 // these are the props for the Header
-export const Header = ({ allToggled, handleToggleAll }) => {
+export const TableHeader = ({ allToggled, handleToggleAll }) => {
   return (
     <Table.Header>
       <Table.Row>
