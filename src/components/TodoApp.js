@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Input, Header, Icon } from 'semantic-ui-react'
 import { TodoItem } from './TodoItem'
-import { TableHeader } from './Header'
+import { TableHeader } from './TableHeader'
 import { Footer } from './Footer'
 
 class TodoApp extends Component {
