@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import { Table, Checkbox, Button, Input } from 'semantic-ui-react'
+import { Table, Input } from 'semantic-ui-react'
 import {TodoItem} from './TodoItem'
+import {Header} from './Header'
+import {Footer} from './Footer'
+
 
 class TodoApp extends Component {
     // set state in a component
@@ -111,17 +114,10 @@ class TodoApp extends Component {
               onKeyDown={this.handleNewTodoKeyDown}
             />
             <Table>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>
-                    <Checkbox
-                      checked={allToggled}
-                      onChange={this.handleToggleAll}
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Toggle all items</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
+              <Header
+              allToggled= {allToggled}
+              handleToggleAll = {()=> this.handleToggleAll()}
+              />
               <Table.Body>
                 {this.state.todos.map((todo, index) => (
                   <TodoItem
@@ -132,15 +128,9 @@ class TodoApp extends Component {
                   />
                 ))}
               </Table.Body>
-              <Table.Footer fullWidth>
-                <Table.Row>
-                  <Table.HeaderCell colSpan='2'>
-                    <Button size='small' onClick={this.handleClearCompleted}>
-                      Clear completed
-                    </Button>
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Footer>
+              <Footer
+              handleClearCompleted= {()=>this.handleClearCompleted()}
+              />
             </Table>
           </div>
       )
