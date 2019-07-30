@@ -8,11 +8,6 @@ import { Footer } from './Footer'
 const headers = {
   'Content-Type': 'application/json',
 }
-// data.json() and fetch are both asynchronous
-fetch('http://localhost:3500/todos')
-  .then(data => data.json())
-  .then(data => console.log({ data }))
-  .catch(err => console.log({ err }))
 
 class TodoApp extends Component {
   // set state in a component
@@ -33,25 +28,30 @@ class TodoApp extends Component {
   }
 
   // component method
-  handleTodoClick = (todo, index) => {
-    const { completed } = todo
-    const [...todos] = this.state.todos
-    todos[index] = { ...todo, completed: !completed }
-    this.setState({ todos: todos })
+  handleTodoClick = (todo) => {
+    const { completed,id } = todo
+    fetch(`http://localhost:3500/todos/${id}`, {
+      // PATCH just updates but does not delete the old entry
+      method: 'PATCH',
+      headers,
+      // toggle the completed state
+      body: JSON.stringify({ completed: !completed }),
+    }).then(this.fetchTodos)
   }
 
   // check if all toggled
-  handleToggleAll = () => {
-    const [...todos] = this.state.todos
-    const allToggled = todos.every(todo => todo.completed)
-    const toggledTodos = todos.map(todo => ({
-      ...todo,
-      completed: !allToggled,
-    }))
-
-    this.setState({ todos: toggledTodos })
+  handleToggleAll = allToggled => {
+    const { todos } = this.state
+    Promise.all(
+      todos.map(todo =>
+        fetch(`http://localhost:3500/todos/${todo.id}`, {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({ completed: !allToggled }),
+        }),
+      ),
+    ).then(this.fetchTodos)
   }
-
   // best way to write class methods to avoid binding issues
   handleInputChange = event => {
     const value = event.target.value
@@ -113,16 +113,29 @@ class TodoApp extends Component {
     }
   }
 
-  handleDelete = index => {
-    const { todos } = this.state
-    const todosWithoutDeletedTodo = todos.filter((t, i) => i !== index)
-    this.setState({ todos: todosWithoutDeletedTodo })
+  handleDelete = id => {
+    fetch(`http://localhost:3500/todos/${id}`, {
+      method: 'DELETE',
+      headers,
+    }).then(this.fetchTodos)
   }
 
   handleClearCompleted = () => {
     const { todos } = this.state
-    const incompleteTodos = todos.filter(todo => !todo.completed)
-    this.setState({ todos: incompleteTodos })
+    const completedTodos = todos.filter(
+      todo => todo.completed,
+    )
+    // once all of the promises are completed 
+    Promise.all(
+      // map this fetch function over each todo 
+      completedTodos.map(todo =>
+        fetch(`http://localhost:3500/todos/${todo.id}`, {
+          method: 'DELETE',
+          headers,
+        }),
+      ),
+      // once all the completed todos are deleted fetch the todos 
+    ).then(this.fetchTodos)
   }
 
   render() {
@@ -148,15 +161,15 @@ class TodoApp extends Component {
         <Table>
           <TableHeader
             allToggled={allToggled}
-            handleToggleAll={() => this.handleToggleAll()}
+            handleToggleAll={() => this.handleToggleAll(allToggled)}
           />
           <Table.Body>
             {this.state.todos.map((todo, index) => (
               <TodoItem
                 key={index}
                 todo={todo}
-                handleToggle={() => this.handleTodoClick(todo, index)}
-                handleDelete={() => this.handleDelete(index)}
+                handleToggle={() => this.handleTodoClick(todo)}
+                handleDelete={() => this.handleDelete(todo.id)}
               />
             ))}
           </Table.Body>
