@@ -1,0 +1,8 @@
+{
+  "todos": [
+    { "title": "Learn React", "completed": false },
+    { "title": "Learn Redux", "completed": false },
+    { "title": "Learn React Native", "completed": false },
+    { "title": "Learn to make a web app", "completed": false }
+  ]
+}

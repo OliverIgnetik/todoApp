@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { Table, Input, Header, Icon } from 'semantic-ui-react'
+import { Table, Input, Header } from 'semantic-ui-react'
 import { TodoItem } from './TodoItem'
 import { TableHeader } from './TableHeader'
 import { Footer } from './Footer'
+
+// data.json() and fetch are both asynchronous 
+fetch('http://localhost:3500/todos')
+  .then(data => data.json())
+  .then(data => console.log({ data }))
+  .catch(err => console.log({ err }))
 
 class TodoApp extends Component {
   // set state in a component
@@ -100,8 +106,7 @@ class TodoApp extends Component {
     const allToggled = todos.every(todo => todo.completed)
     return (
       <div className='todo-container'>
-        <Header size='large' icon style={{ width: '100%' }}>
-          <Icon name='calendar check' />
+        <Header as='h1' style={{ width: '100%', textAlign: 'center' }}>
           Todo List
         </Header>
         <Input
