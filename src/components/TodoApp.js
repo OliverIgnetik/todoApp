@@ -4,6 +4,10 @@ import { TodoItem } from './TodoItem'
 import { TableHeader } from './TableHeader'
 import { Footer } from './Footer'
 
+// headers for fetch request
+const headers = {
+  'Content-Type': 'application/json',
+}
 // data.json() and fetch are both asynchronous
 fetch('http://localhost:3500/todos')
   .then(data => data.json())
@@ -24,7 +28,7 @@ class TodoApp extends Component {
       .catch(err => console.error({ err }))
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.fetchTodos()
   }
 
@@ -66,14 +70,21 @@ class TodoApp extends Component {
     event.preventDefault()
     const { newTodo, todos } = this.state //Destructure
     const value = newTodo.trim() //Get rid of white space at beginning and end
+    // fetch request
     if (value) {
-      //Check the value isn't blank
-      this.setState({
-        // append newTodo
-        todos: [...todos, { title: value, completed: false }],
-        //Finally clear the input field
-        newTodo: '',
+      fetch('http://localhost:3500/todos', {
+        method: 'POST',
+        headers, //Using our headers variable
+        // headers tell the fetch request what is the content
+        body: JSON.stringify({
+          title: value, //Grab the value from the input
+          completed: false,
+        }),
       })
+        // once POST promise is resolved then get the todos
+        .then(this.fetchTodos)
+        // once fetch is completed reset to input
+        .then(() => this.setState({ newTodo: '' }))
     }
   }
 
@@ -84,14 +95,21 @@ class TodoApp extends Component {
     }
     const { newTodo, todos } = this.state //Destructure
     const value = newTodo.trim() //Get rid of white space at beginning and end
+    // fetch request
     if (value) {
-      //Check the value isn't blank
-      this.setState({
-        // append newTodo
-        todos: [...todos, { title: value, completed: false }],
-        //Finally clear the input field
-        newTodo: '',
+      fetch('http://localhost:3500/todos', {
+        method: 'POST',
+        headers, //Using our headers variable
+        // headers tell the fetch request what is the content
+        body: JSON.stringify({
+          title: value, //Grab the value from the input
+          completed: false,
+        }),
       })
+        // once POST promise is resolved then get the todos
+        .then(this.fetchTodos)
+        // once fetch is completed reset to input
+        .then(() => this.setState({ newTodo: '' }))
     }
   }
 
