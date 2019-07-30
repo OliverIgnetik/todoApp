@@ -4,7 +4,7 @@ import { TodoItem } from './TodoItem'
 import { TableHeader } from './TableHeader'
 import { Footer } from './Footer'
 
-// data.json() and fetch are both asynchronous 
+// data.json() and fetch are both asynchronous
 fetch('http://localhost:3500/todos')
   .then(data => data.json())
   .then(data => console.log({ data }))
@@ -13,13 +13,19 @@ fetch('http://localhost:3500/todos')
 class TodoApp extends Component {
   // set state in a component
   state = {
-    todos: [
-      { title: 'Learn React', completed: false },
-      { title: 'Learn Redux', completed: false },
-      { title: 'Learn React Native', completed: false },
-      { title: 'Learn to make a web app', completed: false },
-    ],
+    todos: [],
     newTodo: '',
+  }
+
+  fetchTodos = () => {
+    fetch('http://localhost:3500/todos')
+      .then(data => data.json())
+      .then(todos => this.setState({ todos }))
+      .catch(err => console.error({ err }))
+  }
+
+  componentDidMount(){
+    this.fetchTodos()
   }
 
   // component method
