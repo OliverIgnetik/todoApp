@@ -17,7 +17,7 @@ class TodoApp extends Component {
   }
 
   fetchTodos = () => {
-    fetch('http://localhost:3500/todos')
+    fetch('/todos')
       .then(data => data.json())
       .then(todos => this.setState({ todos }))
       .catch(err => console.error({ err }))
@@ -30,7 +30,7 @@ class TodoApp extends Component {
   // component method
   handleTodoClick = (todo) => {
     const { completed,id } = todo
-    fetch(`http://localhost:3500/todos/${id}`, {
+    fetch(`/todos/${id}`, {
       // PATCH just updates but does not delete the old entry
       method: 'PATCH',
       headers,
@@ -44,7 +44,7 @@ class TodoApp extends Component {
     const { todos } = this.state
     Promise.all(
       todos.map(todo =>
-        fetch(`http://localhost:3500/todos/${todo.id}`, {
+        fetch(`/todos/${todo.id}`, {
           method: 'PATCH',
           headers,
           body: JSON.stringify({ completed: !allToggled }),
@@ -72,7 +72,7 @@ class TodoApp extends Component {
     const value = newTodo.trim() //Get rid of white space at beginning and end
     // fetch request
     if (value) {
-      fetch('http://localhost:3500/todos', {
+      fetch('/todos', {
         method: 'POST',
         headers, //Using our headers variable
         // headers tell the fetch request what is the content
@@ -97,7 +97,7 @@ class TodoApp extends Component {
     const value = newTodo.trim() //Get rid of white space at beginning and end
     // fetch request
     if (value) {
-      fetch('http://localhost:3500/todos', {
+      fetch('/todos', {
         method: 'POST',
         headers, //Using our headers variable
         // headers tell the fetch request what is the content
@@ -114,7 +114,7 @@ class TodoApp extends Component {
   }
 
   handleDelete = id => {
-    fetch(`http://localhost:3500/todos/${id}`, {
+    fetch(`/todos/${id}`, {
       method: 'DELETE',
       headers,
     }).then(this.fetchTodos)
@@ -129,7 +129,7 @@ class TodoApp extends Component {
     Promise.all(
       // map this fetch function over each todo 
       completedTodos.map(todo =>
-        fetch(`http://localhost:3500/todos/${todo.id}`, {
+        fetch(`/todos/${todo.id}`, {
           method: 'DELETE',
           headers,
         }),

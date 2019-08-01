@@ -2,6 +2,11 @@
   "name": "react-todo-app-ver2",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:3500",
+  "engines": {
+    "node": "10.16.0",
+    "npm": "6.10.0"
+  },
   "dependencies": {
     "json-server": "^0.15.0",
     "react": "^16.8.6",
