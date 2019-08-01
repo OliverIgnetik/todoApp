@@ -68,7 +68,7 @@ class TodoApp extends Component {
       return
     }
     event.preventDefault()
-    const { newTodo, todos } = this.state //Destructure
+    const { newTodo} = this.state //Destructure
     const value = newTodo.trim() //Get rid of white space at beginning and end
     // fetch request
     if (value) {
@@ -93,7 +93,7 @@ class TodoApp extends Component {
       // don't allow more than 10 todos
       return
     }
-    const { newTodo, todos } = this.state //Destructure
+    const { newTodo} = this.state //Destructure
     const value = newTodo.trim() //Get rid of white space at beginning and end
     // fetch request
     if (value) {
