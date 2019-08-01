@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/c445377d-2be5-44ef-8b2b-b2ab09d1723d/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/IgnetikReactTodoApp",
+    "appService.deploySubpath": ""
+}
